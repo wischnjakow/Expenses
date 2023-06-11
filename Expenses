@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Счетчик доходов и расходов</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .add-btn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Счетчик доходов и расходов</h1>
+
+    <div class="add-btn">
+        <button onclick="addRow()">Добавить запись</button>
+    </div>
+
+    <table id="expenses-table">
+        <tr>
+            <th>Операция</th>
+            <th>Сумма</th>
+            <th>Дата</th>
+            <th>Действия</th>
+        </tr>
+        <tr>
+            <td>Зарплата</td>
+            <td>5000</td>
+            <td>2023-06-01</td>
+            <td>
+                <button onclick="editRow(this)">Редактировать</button>
+                <button onclick="deleteRow(this)">Удалить</button>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function addRow() {
+            var table = document.getElementById("expenses-table");
+            var newRow = table.insertRow(table.rows.length);
+
+            var operationCell = newRow.insertCell(0);
+            var amountCell = newRow.insertCell(1);
+            var dateCell = newRow.insertCell(2);
+            var actionsCell = newRow.insertCell(3);
+
+            operationCell.innerHTML = "<input type='text'>";
+            amountCell.innerHTML = "<input type='number'>";
+            dateCell.innerHTML = "<input type='date'>";
+            actionsCell.innerHTML = "<button onclick='editRow(this)'>Редактировать</button> <button onclick='deleteRow(this)'>Удалить</button>";
+        }
+
+        function editRow(button) {
+            var row = button.parentNode.parentNode;
+            var operationCell = row.cells[0];
+            var amountCell = row.cells[1];
+            var dateCell = row.cells[2];
+            var actionsCell = row.cells[3];
+
+            var operationValue = operationCell.innerHTML;
+            var amountValue = amountCell.innerHTML;
+            var dateValue = dateCell.innerHTML;
+
+            operationCell.innerHTML = "<input type='text' value='" + operationValue + "'>";
+            amountCell.innerHTML = "<input type='number' value='" + amountValue + "'>";
+            dateCell.innerHTML = "<input type='date' value='" + dateValue + "'>";
+            actionsCell.innerHTML = "<button onclick='saveRow(this)'>Сохранить</button> <button onclick='cancelEditRow(this)'>Отмена</button>";
+        }
+
+        function saveRow(button) {
+            var row = button.parentNode.parentNode;
+            var operationCell = row.cells[0];
+            var amountCell = row.cells[1];
+            var dateCell = row.cells[2];
+            var actionsCell = row.cells[3];
+
+            var operationValue = operationCell.firstChild.value;
+            var amountValue = amountCell.firstChild.value;
+            var dateValue = dateCell.firstChild.value;
+
+            operationCell.innerHTML = operationValue;
+            amountCell.innerHTML = amountValue;
+            dateCell.innerHTML = dateValue;
+            actionsCell.innerHTML = "<button onclick='editRow(this)'>Редактировать</button> <button onclick='deleteRow(this)'>Удалить</button>";
+        }
+
+        function cancelEditRow(button) {
+            var row = button.parentNode.parentNode;
+            var operationCell = row.cells[0];
+            var amountCell = row.cells[1];
+            var dateCell = row.cells[2];
+            var actionsCell = row.cells[3];
+
+            var operationValue = operationCell.firstChild.getAttribute("value");
+            var amountValue = amountCell.firstChild.getAttribute("value");
+            var dateValue = dateCell.firstChild.getAttribute("value");
+
+            operationCell.innerHTML = operationValue;
+            amountCell.innerHTML = amountValue;
+            dateCell.innerHTML = dateValue;
+            actionsCell.innerHTML = "<button onclick='editRow(this)'>Редактировать</button> <button onclick='deleteRow(this)'>Удалить</button>";
+        }
+
+        function deleteRow(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</body>
+</html>
